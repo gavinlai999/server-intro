@@ -22,6 +22,11 @@ button{
     background-color:lightblue;
 }
 
+.container button.selected {
+    background-color: green; /* Change this color to your preferred darker color */
+}
+
+
 #submitButton{
     background-color:lightseagreen;
 }
