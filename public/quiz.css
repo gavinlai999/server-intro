@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@200&display=swap');
+body{
+    font-family:sans-serif,"Fira Sans";
+}
+.container{
+    display:inline-block;
+    text-align:center;
+    justify-content:center;
+    background-color: white;
+    width:100%;
+    height:100%;
+    color:#444;
+}
+
+button{
+    font-size:0.75rem;
+    border-radius:25px;
+    width:25%;
+    margin:5%;
+    height:3rem;
+    border:none;
+    background-color:lightblue;
+}
+
+#submitButton{
+    background-color:lightseagreen;
+}
+
