@@ -19,8 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
-//Get user name and send to server then display user name on next page
 document.addEventListener('DOMContentLoaded', function () {
     // Get the user's name from the URL query parameter
     const urlParams = new URLSearchParams(window.location.search);
@@ -32,6 +30,8 @@ document.addEventListener('DOMContentLoaded', function () {
         userNameElement.textContent = `Welcome, ${userName || 'Guest'}!`;
     }
 
+    // ... (existing code)
+
     // Event listener for the submit button
     const submitButton = document.getElementById('submitButton');
     if (submitButton) {
@@ -41,12 +41,41 @@ document.addEventListener('DOMContentLoaded', function () {
             showTryAgainButton();
         });
     }
-
+    
     // Event listener for try-again button
-    const tryAgainButton = document.getElementById('tryAgainButton');
-    if (tryAgainButton) {
-        tryAgainButton.addEventListener('click', function () {
-            resetQuiz();
+const tryAgainButton = document.getElementById('tryAgainButton');
+if (tryAgainButton) {
+    tryAgainButton.addEventListener('click', function () {
+        resetQuiz();
+    });
+}
+
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Event listener for question buttons
+    const questionButtons = document.querySelectorAll('.container button');
+    questionButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Toggle 'selected' class
+            button.classList.toggle('selected');
+
+            // Change background color on click
+            if (button.classList.contains('selected')) {
+                button.style.backgroundColor = '#7ebaff'; // Change this color to your preferred darker color
+            } else {
+                button.style.backgroundColor = 'lightblue'; // Change this color to the original color
+            }
+        });
+    });
+
+    // Event listener for the submit button
+    const submitButton = document.getElementById('submitButton');
+    if (submitButton) {
+        submitButton.addEventListener('click', function () {
+            // Display results and try-again button
+            displayResults();
+            showTryAgainButton();
         });
     }
 });
@@ -60,31 +89,21 @@ function displayResults() {
 
     // Display selected answers
     const selectedAnswers = getSelectedAnswers();
-    const selectedAnswersList = document.getElementById('selectedAnswers');
-    if (selectedAnswersList) {
-        selectedAnswersList.innerHTML = '';
+    console.log('Selected Answers:', selectedAnswers);
 
-        selectedAnswers.forEach(answer => {
-            const listItem = document.createElement('li');
-            listItem.textContent = answer;
-            selectedAnswersList.appendChild(listItem);
-        });
+    // Calculate and display the final score
+    const finalScore = calculateTotalScore(selectedAnswers);
+
+    // Display the final score and pass/fail message
+    const passOrFailMessage = document.getElementById('passOrFailMessage');
+    if (passOrFailMessage) {
+        passOrFailMessage.textContent = finalScore >= 4 ? 'Congratulations! You Passed!' : 'Sorry, You Didn\'t Pass.';
     }
-
-    // Calculate the final score
-    const finalScore = calculateTotalScore();
-    console.log('Final Score:', finalScore); // Log the final score
 
     // Display the final score
     const finalScoreElement = document.getElementById('finalScore');
     if (finalScoreElement) {
         finalScoreElement.textContent = `Your Score: ${finalScore}`;
-
-        // Show the pass/fail message
-        const passOrFailMessage = document.getElementById('passOrFailMessage');
-        if (passOrFailMessage) {
-            passOrFailMessage.textContent = finalScore >= 4 ? 'Congratulations! You Passed!' : 'Sorry, You Didn\'t Pass.';
-        }
     }
 
     // Show the result section
@@ -94,35 +113,9 @@ function displayResults() {
     }
 }
 
-
-
-// Event listener for question buttons
-const questionButtons = document.querySelectorAll('.container button');
-
-questionButtons.forEach(button => {
-    button.addEventListener('click', function () {
-        // Remove 'selected' class from all buttons
-        questionButtons.forEach(otherButton => {
-            otherButton.classList.remove('selected');
-            otherButton.style.backgroundColor = ''; // Reset background color for other buttons
-        });
-
-        // Add 'selected' class and change background color to the clicked button
-        button.classList.add('selected');
-        button.style.backgroundColor = '#7ebaff'; // Change this color to your preferred darker color
-    });
-});
-
-
-
-function calculateTotalScore() {
-    // Get the correct buttons
-    const correctButtons = document.querySelectorAll('.correct');
+function calculateTotalScore(selectedAnswers) {
+    const correctButtons = document.querySelectorAll('.container button.correct');
     console.log('Correct Buttons:', correctButtons);
-
-    // Count how many of the selected answers are correct
-    const selectedAnswers = getSelectedAnswers();
-    console.log('Selected Answers:', selectedAnswers);
 
     let score = 0;
 
@@ -132,24 +125,18 @@ function calculateTotalScore() {
         }
     });
 
-    console.log('Score:', score); // Log the score to check if it's calculated correctly
+    console.log('Score:', score);
 
     return score;
 }
-
-
-
-
-
 
 function getSelectedAnswers() {
     // Get the text content of selected answer buttons
     const selectedButtons = document.querySelectorAll('.container button.selected');
     console.log('Selected Buttons:', selectedButtons);
     
-    return Array.from(selectedButtons).map(button => button.textContent);
+    return Array.from(selectedButtons).map(button => button.textContent.trim());
 }
-
 
 function showTryAgainButton() {
     // Show the try-again button
@@ -160,24 +147,9 @@ function showTryAgainButton() {
 }
 
 function resetQuiz() {
-    // Reset the quiz by clearing selected answers and showing the submit button
-    const selectedButtons = document.querySelectorAll('.selected');
-    selectedButtons.forEach(button => button.classList.remove('selected'));
+    // Reload the page to reset the quiz
+    window.location.reload();
 
-    // Show the submit button
-    const submitButton = document.getElementById('submitButton');
-    if (submitButton) {
-        submitButton.style.display = 'block';
-    }
-
-    // Hide the result section and try-again button
-    const resultSection = document.getElementById('resultSection');
-    if (resultSection) {
-        resultSection.style.display = 'none';
-    }
-
-    const tryAgainButton = document.getElementById('tryAgainButton');
-    if (tryAgainButton) {
-        tryAgainButton.style.display = 'none';
-    }
+    window.scrollTo(0, 0);
 }
+
