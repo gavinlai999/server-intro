@@ -4,16 +4,15 @@ const bodyParser = require('body-parser');
 const port = 3000;
 const passingScore = 4;
 
-app.use(express.static(".public"));
-app.get("/", function (req,res){
-    res.sendFile(__dirname + "index.html");
-    res.sendFile(__dirname + "style.css");
-});
-app.post("/" , function(req,res){
+// Correct the static file directory to "public"
+app.use(express.static("public"));
+
+app.get("/", function (req, res) {
     res.sendFile(__dirname + "/public/index.html");
 });
-app.listen(process.env.PORT || 10000, function() {
-    console.log(`Server is running on port ${process.env.PORT}.`);
+
+app.post("/", function (req, res) {
+    res.sendFile(__dirname + "/public/index.html");
 });
 
 app.post('/submitQuiz', (req, res) => {
@@ -21,4 +20,8 @@ app.post('/submitQuiz', (req, res) => {
     const userScore = req.body.score;
     const passed = userScore >= passingScore;
     res.json({ passed: passed });
+});
+
+app.listen(process.env.PORT || 10000, function () {
+    console.log(`Server is running on port ${process.env.PORT || 10000}.`);
 });
