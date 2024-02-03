@@ -53,19 +53,23 @@ if (tryAgainButton) {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Event listener for question buttons
     const questionButtons = document.querySelectorAll('.container button');
+
+    // Event listener for question buttons
     questionButtons.forEach(button => {
         button.addEventListener('click', function () {
-            // Toggle 'selected' class
-            button.classList.toggle('selected');
+            // Deselect all buttons
+            questionButtons.forEach(btn => {
+                btn.classList.remove('selected');
+                btn.style.backgroundColor = 'lightblue'; // Reset color to original
+            });
 
-            // Change background color on click
-            if (button.classList.contains('selected')) {
-                button.style.backgroundColor = '#7ebaff'; // Change this color to your preferred darker color
-            } else {
-                button.style.backgroundColor = 'lightblue'; // Change this color to the original color
-            }
+            // Select the clicked button
+            button.classList.add('selected');
+            button.style.backgroundColor = '#7ebaff'; // Change to a darker color
+
+            // Additional logic for other actions when a button is clicked
+            // ...
         });
     });
 
