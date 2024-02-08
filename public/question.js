@@ -116,6 +116,7 @@ function displayResults() {
         resultSection.style.display = 'block';
     }
 }
+
 function calculateTotalScore(selectedAnswers) {
     const correctButtons = document.querySelectorAll('.container button.correct');
     console.log('Correct Buttons:', correctButtons);
@@ -123,12 +124,17 @@ function calculateTotalScore(selectedAnswers) {
     let score = 0;
 
     selectedAnswers.forEach(selectedAnswer => {
-        if (Array.from(correctButtons).some(correctButton => correctButton.textContent.trim() === selectedAnswer.trim())) {
-            score++;
-        }
+        console.log('Selected Answer:', selectedAnswer);
+        Array.from(correctButtons).forEach(correctButton => {
+            console.log('Correct Button Text:', correctButton.textContent.trim());
+            if (correctButton.textContent.trim() === selectedAnswer.trim()) {
+                score++;
+                console.log('Score Increased:', score);
+            }
+        });
     });
 
-    console.log('Score:', score);
+    console.log('Final Score:', score);
 
     return score;
 }
