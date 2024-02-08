@@ -116,7 +116,6 @@ function displayResults() {
         resultSection.style.display = 'block';
     }
 }
-
 function calculateTotalScore(selectedAnswers) {
     const correctButtons = document.querySelectorAll('.container button.correct');
     console.log('Correct Buttons:', correctButtons);
